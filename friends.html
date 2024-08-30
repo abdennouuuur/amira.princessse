@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input, select, textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Friends Application</h1>
+    <form id="friendsForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+            <option value="" disabled selected>Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="hobbies">Hobbies</label>
+        <textarea id="hobbies" name="hobbies" rows="4" required></textarea>
+
+        <label for="why">Why do you want to be friends?</label>
+        <textarea id="why" name="why" rows="4" required></textarea>
+
+        <label for="contact">Preferred Contact Method</label>
+        <input type="text" id="contact" name="contact" required>
+
+        <button type="button" onclick="generatePDF()">Apply</button>
+    </form>
+
+    <script>
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const hobbies = document.getElementById('hobbies').value;
+            const why = document.getElementById('why').value;
+            const contact = document.getElementById('contact').value;
+
+            doc.text("Friends Application", 10, 10);
+            doc.text(`Full Name: ${name}`, 10, 20);
+            doc.text(`Age: ${age}`, 10, 30);
+            doc.text(`Gender: ${gender}`, 10, 40);
+            doc.text("Hobbies:", 10, 50);
+            doc.text(hobbies, 10, 60);
+            doc.text("Why do you want to be friends?", 10, 80);
+            doc.text(why, 10, 90);
+            doc.text(`Preferred Contact Method: ${contact}`, 10, 110);
+
+            doc.save(`${name}_friends_application.pdf`);
+
+            // Here you would typically send the PDF via email.
+            // However, sending emails directly from a static HTML page is not secure or feasible.
+            // You would need a backend service to handle the email sending, which is beyond HTML/JavaScript alone.
+        }
+    </script>
+</body>
+</html>
